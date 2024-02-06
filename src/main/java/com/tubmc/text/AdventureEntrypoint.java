@@ -23,7 +23,7 @@ package com.tubmc.text;
  * @version 1.0.0
  * @see AdventureTextImplementation
  */
-public final class Entrypoint {
+public final class AdventureEntrypoint {
 	/**
 	 * Performs a check to ensure double registering cannot occur
 	 * 
