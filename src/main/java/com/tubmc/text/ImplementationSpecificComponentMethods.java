@@ -3,6 +3,7 @@ package com.tubmc.text;
 import org.jetbrains.annotations.ApiStatus.Internal;
 import org.jetbrains.annotations.NotNull;
 
+import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.ComponentLike;
 
@@ -31,14 +32,44 @@ import net.kyori.adventure.text.ComponentLike;
  */
 @Internal
 sealed interface ImplementationSpecificComponentMethods extends ComponentLike permits IComponent {
-	
+	/**
+	 * Returns {@link #toAdventure()}, provided to fulfil {@link ComponentLike}
+	 * 
+	 * @since 1.0.0
+	 * @return {@link #toAdventure()}
+	 * @see #toAdventure()
+	 */
 	@Override
 	default @NotNull Component asComponent() {
 		return this.toAdventure();
 	}
-	
+	/**
+	 * Invokes and returns {@link AdventureTextImplementation#unwrapComponent(IComponent)}
+	 * 
+	 * @return {@link AdventureTextImplementation#unwrapComponent(IComponent)}
+	 * @see AdventureTextImplementation#unwrapComponent(IComponent)
+	 */
 	public default @NotNull Component toAdventure() {
 		return AdventureTextImplementation.unwrapComponent((IComponent)this);
 	}
-	
+	/**
+	 * Sends this message to the provided {@link Audience}
+	 * 
+	 * @param audience The {@link Audience} to send the chat message to
+	 * @since 1.0.0
+	 * @see Audience#sendMessage(ComponentLike)
+	 */
+	public default void sendTo(@NotNull final Audience audience) {
+		audience.sendMessage(this);
+	}
+	/**
+	 * Sends this message to the provided {@link Audience}
+	 * 
+	 * @param audience The {@link Audience} to send the actionbar to
+	 * @since 1.0.0
+	 * @see Audience#sendActionBar(ComponentLike)
+	 */
+	public default void sendAsActionBarTo(@NotNull final Audience audience) {
+		audience.sendActionBar(this);
+	}
 }
